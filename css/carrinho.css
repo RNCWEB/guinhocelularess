@@ -1,0 +1,155 @@
+.carrinho-pagina {
+  padding-block: 28px 65px;
+}
+.etapas-pedido {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  max-width: 600px;
+  margin-bottom: 30px;
+  color: #8c98ac;
+  font-size: 12px;
+}
+.etapas-pedido > span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.etapas-pedido b {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border: 1px solid #4e5d73;
+  border-radius: 50%;
+  font-size: 10px;
+}
+.etapas-pedido > .ativo {
+  color: #f4e2e8;
+}
+.etapas-pedido > .ativo b {
+  background: #c61834;
+  border-color: #ff5671;
+  color: white;
+}
+.etapas-pedido > i {
+  height: 1px;
+  background: #42506855;
+  flex: 1;
+}
+.carrinho-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(300px, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+.carrinho-itens {
+  border: 1px solid #46506477;
+  border-radius: 12px;
+  padding: 23px;
+  background:
+    linear-gradient(
+      145deg,
+      #171e2a,
+      #0f141e);
+}
+.carrinho-itens-cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--linha);
+}
+.carrinho-itens-cabecalho h2 {
+  font-size: 19px;
+}
+.carrinho-itens .item-controles {
+  width: 100%;
+  padding-left: 64px;
+  justify-content: space-between;
+}
+.continuar-comprando {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #c8cfdf;
+  margin-top: 21px;
+}
+.continuar-comprando .icone {
+  width: 18px;
+  height: 18px;
+  rotate: 180deg;
+}
+.resumo-pedido {
+  padding: 25px;
+}
+.resumo-pedido > .sobretitulo {
+  font-size: 8px;
+  color: #a9b5c8;
+  letter-spacing: 1.5px;
+}
+.resumo-pedido h2 {
+  font-size: 24px;
+  margin: 8px 0 22px;
+}
+.resumo-linha {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+.resumo-linha .texto-suave {
+  font-size: 11px;
+}
+.resumo-total {
+  border-top: 1px solid #58647b55;
+  margin-top: 20px;
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12px;
+}
+.resumo-total > strong {
+  font-size: 31px;
+  letter-spacing: -1px;
+  color: #ff3c54;
+}
+.resumo-pedido .nota-demo {
+  font-size: 10px;
+  padding: 12px;
+  margin: 20px 0 15px;
+}
+.revisao-pedido {
+  margin-top: 30px;
+}
+.revisao-pedido h2 {
+  font-size: 24px;
+}
+.revisao-pedido > .texto-suave {
+  margin: 10px 0 23px;
+  max-width: 660px;
+}
+.revisao-pedido textarea {
+  font-size: 13px;
+  line-height: 1.8;
+  resize: vertical;
+  min-height: 260px;
+}
+.revisao-acoes {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+.revisao-pedido > .nota-demo,
+.revisao-pedido > .mensagem-erro {
+  margin-top: 16px;
+}

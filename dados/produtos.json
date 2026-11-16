@@ -1,0 +1,646 @@
+{
+  "versao": 1,
+  "categorias": [
+    {
+      "id": "telas",
+      "nome": "Telas",
+      "icone": "tela"
+    },
+    {
+      "id": "baterias",
+      "nome": "Baterias",
+      "icone": "bateria"
+    },
+    {
+      "id": "conectores",
+      "nome": "Conectores",
+      "icone": "conector"
+    },
+    {
+      "id": "componentes",
+      "nome": "Componentes",
+      "icone": "chip"
+    },
+    {
+      "id": "flex",
+      "nome": "Flex",
+      "icone": "flex"
+    },
+    {
+      "id": "cameras",
+      "nome": "Câmeras",
+      "icone": "camera"
+    },
+    {
+      "id": "carcacas",
+      "nome": "Carcaças",
+      "icone": "carcaca"
+    },
+    {
+      "id": "acessorios",
+      "nome": "Acessórios",
+      "icone": "fone"
+    },
+    {
+      "id": "ferramentas",
+      "nome": "Ferramentas",
+      "icone": "ferramenta"
+    }
+  ],
+  "produtos": [
+    {
+      "id": "tela-iphone11",
+      "nome": "Tela LCD Incell — iPhone 11",
+      "sku": "TLC-IPH11",
+      "marca": "Apple",
+      "modelo": "iPhone 11",
+      "categoria": "telas",
+      "precoCentavos": 11000,
+      "estoque": 18,
+      "ativo": true,
+      "destaque": true,
+      "novidade": false,
+      "oferta": false,
+      "selo": "Destaque",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "iPhone 11",
+        "Linha": "Apple",
+        "Categoria": "Telas",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "bateria-iphonexr",
+      "nome": "Bateria — iPhone XR",
+      "sku": "BAT-IPXR",
+      "marca": "Apple",
+      "modelo": "iPhone XR",
+      "categoria": "baterias",
+      "precoCentavos": 6500,
+      "estoque": 24,
+      "ativo": true,
+      "destaque": true,
+      "novidade": false,
+      "oferta": false,
+      "selo": "Seleção",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "iPhone XR",
+        "Linha": "Apple",
+        "Categoria": "Baterias",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "conector-samsunga15",
+      "nome": "Conector de carga — Samsung A15",
+      "sku": "CON-SA15",
+      "marca": "Samsung",
+      "modelo": "Galaxy A15",
+      "categoria": "conectores",
+      "precoCentavos": 2500,
+      "estoque": 40,
+      "ativo": true,
+      "destaque": true,
+      "novidade": true,
+      "oferta": false,
+      "selo": "Novidade",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "Galaxy A15",
+        "Linha": "Samsung",
+        "Categoria": "Conectores",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "camera-iphone12",
+      "nome": "Câmera traseira — iPhone 12",
+      "sku": "CAM-IPH12",
+      "marca": "Apple",
+      "modelo": "iPhone 12",
+      "categoria": "cameras",
+      "precoCentavos": 18500,
+      "estoque": 8,
+      "ativo": true,
+      "destaque": true,
+      "novidade": false,
+      "oferta": false,
+      "selo": "",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "iPhone 12",
+        "Linha": "Apple",
+        "Categoria": "Câmeras",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "flex-samsunga14",
+      "nome": "Flex de volume — Samsung A14",
+      "sku": "FLX-SA14",
+      "marca": "Samsung",
+      "modelo": "Galaxy A14",
+      "categoria": "flex",
+      "precoCentavos": 1800,
+      "estoque": 35,
+      "ativo": true,
+      "destaque": true,
+      "novidade": false,
+      "oferta": true,
+      "selo": "Oferta demo",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "Galaxy A14",
+        "Linha": "Samsung",
+        "Categoria": "Flex",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "tela-samsunga15",
+      "nome": "Tela de reposição — Samsung A15",
+      "sku": "TLC-SA15",
+      "marca": "Samsung",
+      "modelo": "Galaxy A15",
+      "categoria": "telas",
+      "precoCentavos": 12500,
+      "estoque": 12,
+      "ativo": true,
+      "destaque": false,
+      "novidade": true,
+      "oferta": false,
+      "selo": "Novidade",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "Galaxy A15",
+        "Linha": "Samsung",
+        "Categoria": "Telas",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "tela-motog54",
+      "nome": "Tela de reposição — Moto G54",
+      "sku": "TLC-MG54",
+      "marca": "Motorola",
+      "modelo": "Moto G54",
+      "categoria": "telas",
+      "precoCentavos": 13800,
+      "estoque": 9,
+      "ativo": true,
+      "destaque": false,
+      "novidade": false,
+      "oferta": false,
+      "selo": "",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "Moto G54",
+        "Linha": "Motorola",
+        "Categoria": "Telas",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "tela-redminote12",
+      "nome": "Tela de reposição — Redmi Note 12",
+      "sku": "TLC-RN12",
+      "marca": "Xiaomi",
+      "modelo": "Redmi Note 12",
+      "categoria": "telas",
+      "precoCentavos": 14900,
+      "estoque": 6,
+      "ativo": true,
+      "destaque": false,
+      "novidade": false,
+      "oferta": true,
+      "selo": "Oferta demo",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "Redmi Note 12",
+        "Linha": "Xiaomi",
+        "Categoria": "Telas",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "bateria-iphone11",
+      "nome": "Bateria — iPhone 11",
+      "sku": "BAT-IP11",
+      "marca": "Apple",
+      "modelo": "iPhone 11",
+      "categoria": "baterias",
+      "precoCentavos": 7900,
+      "estoque": 20,
+      "ativo": true,
+      "destaque": false,
+      "novidade": false,
+      "oferta": false,
+      "selo": "",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "iPhone 11",
+        "Linha": "Apple",
+        "Categoria": "Baterias",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "bateria-samsunga14",
+      "nome": "Bateria — Samsung A14",
+      "sku": "BAT-SA14",
+      "marca": "Samsung",
+      "modelo": "Galaxy A14",
+      "categoria": "baterias",
+      "precoCentavos": 6900,
+      "estoque": 14,
+      "ativo": true,
+      "destaque": false,
+      "novidade": true,
+      "oferta": false,
+      "selo": "Novidade",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "Galaxy A14",
+        "Linha": "Samsung",
+        "Categoria": "Baterias",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "bateria-motog54",
+      "nome": "Bateria — Moto G54",
+      "sku": "BAT-MG54",
+      "marca": "Motorola",
+      "modelo": "Moto G54",
+      "categoria": "baterias",
+      "precoCentavos": 7200,
+      "estoque": 0,
+      "ativo": true,
+      "destaque": false,
+      "novidade": false,
+      "oferta": false,
+      "selo": "",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "Moto G54",
+        "Linha": "Motorola",
+        "Categoria": "Baterias",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "conector-iphone11",
+      "nome": "Conector de carga — iPhone 11",
+      "sku": "CON-IP11",
+      "marca": "Apple",
+      "modelo": "iPhone 11",
+      "categoria": "conectores",
+      "precoCentavos": 4500,
+      "estoque": 16,
+      "ativo": true,
+      "destaque": false,
+      "novidade": false,
+      "oferta": false,
+      "selo": "",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "iPhone 11",
+        "Linha": "Apple",
+        "Categoria": "Conectores",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "conector-redminote12",
+      "nome": "Conector USB-C — Redmi Note 12",
+      "sku": "CON-RN12",
+      "marca": "Xiaomi",
+      "modelo": "Redmi Note 12",
+      "categoria": "conectores",
+      "precoCentavos": 2900,
+      "estoque": 22,
+      "ativo": true,
+      "destaque": false,
+      "novidade": false,
+      "oferta": false,
+      "selo": "",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "Redmi Note 12",
+        "Linha": "Xiaomi",
+        "Categoria": "Conectores",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "circuito-carga",
+      "nome": "Circuito de carga — linha universal",
+      "sku": "CI-CARGA01",
+      "marca": "Universal",
+      "modelo": "Aplicação técnica",
+      "categoria": "componentes",
+      "precoCentavos": 3500,
+      "estoque": 45,
+      "ativo": true,
+      "destaque": false,
+      "novidade": false,
+      "oferta": false,
+      "selo": "",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "Aplicação técnica",
+        "Linha": "Universal",
+        "Categoria": "Componentes",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "microfone-smd",
+      "nome": "Microfone SMD — aplicação técnica",
+      "sku": "MIC-SMD01",
+      "marca": "Universal",
+      "modelo": "Aplicação técnica",
+      "categoria": "componentes",
+      "precoCentavos": 850,
+      "estoque": 60,
+      "ativo": true,
+      "destaque": false,
+      "novidade": false,
+      "oferta": true,
+      "selo": "Oferta demo",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "Aplicação técnica",
+        "Linha": "Universal",
+        "Categoria": "Componentes",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "flex-iphone11",
+      "nome": "Flex de volume — iPhone 11",
+      "sku": "FLX-IP11",
+      "marca": "Apple",
+      "modelo": "iPhone 11",
+      "categoria": "flex",
+      "precoCentavos": 3200,
+      "estoque": 18,
+      "ativo": true,
+      "destaque": false,
+      "novidade": false,
+      "oferta": false,
+      "selo": "",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "iPhone 11",
+        "Linha": "Apple",
+        "Categoria": "Flex",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "camera-samsunga15",
+      "nome": "Câmera traseira — Samsung A15",
+      "sku": "CAM-SA15",
+      "marca": "Samsung",
+      "modelo": "Galaxy A15",
+      "categoria": "cameras",
+      "precoCentavos": 8900,
+      "estoque": 11,
+      "ativo": true,
+      "destaque": false,
+      "novidade": false,
+      "oferta": false,
+      "selo": "",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "Galaxy A15",
+        "Linha": "Samsung",
+        "Categoria": "Câmeras",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "camera-motog54",
+      "nome": "Câmera frontal — Moto G54",
+      "sku": "CAM-MG54",
+      "marca": "Motorola",
+      "modelo": "Moto G54",
+      "categoria": "cameras",
+      "precoCentavos": 5900,
+      "estoque": 0,
+      "ativo": true,
+      "destaque": false,
+      "novidade": false,
+      "oferta": false,
+      "selo": "",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "Moto G54",
+        "Linha": "Motorola",
+        "Categoria": "Câmeras",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "carcaca-iphone11",
+      "nome": "Carcaça de reposição — iPhone 11",
+      "sku": "CAR-IP11",
+      "marca": "Apple",
+      "modelo": "iPhone 11",
+      "categoria": "carcacas",
+      "precoCentavos": 9500,
+      "estoque": 7,
+      "ativo": true,
+      "destaque": false,
+      "novidade": false,
+      "oferta": false,
+      "selo": "",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "iPhone 11",
+        "Linha": "Apple",
+        "Categoria": "Carcaças",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "carcaca-samsunga14",
+      "nome": "Tampa traseira — Samsung A14",
+      "sku": "CAR-SA14",
+      "marca": "Samsung",
+      "modelo": "Galaxy A14",
+      "categoria": "carcacas",
+      "precoCentavos": 3800,
+      "estoque": 15,
+      "ativo": true,
+      "destaque": false,
+      "novidade": true,
+      "oferta": false,
+      "selo": "Novidade",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "Galaxy A14",
+        "Linha": "Samsung",
+        "Categoria": "Carcaças",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "cabo-usbc",
+      "nome": "Cabo USB-C — uso universal",
+      "sku": "ACE-USBC01",
+      "marca": "Universal",
+      "modelo": "USB-C",
+      "categoria": "acessorios",
+      "precoCentavos": 1900,
+      "estoque": 50,
+      "ativo": true,
+      "destaque": false,
+      "novidade": false,
+      "oferta": true,
+      "selo": "Oferta demo",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "USB-C",
+        "Linha": "Universal",
+        "Categoria": "Acessórios",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "fone-p2",
+      "nome": "Fone com fio — conexão P2",
+      "sku": "ACE-P201",
+      "marca": "Universal",
+      "modelo": "P2 3,5 mm",
+      "categoria": "acessorios",
+      "precoCentavos": 2200,
+      "estoque": 32,
+      "ativo": true,
+      "destaque": false,
+      "novidade": false,
+      "oferta": false,
+      "selo": "",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "P2 3,5 mm",
+        "Linha": "Universal",
+        "Categoria": "Acessórios",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "carregador-usbc",
+      "nome": "Carregador USB-C — demonstração",
+      "sku": "ACE-CAR01",
+      "marca": "Universal",
+      "modelo": "USB-C",
+      "categoria": "acessorios",
+      "precoCentavos": 4900,
+      "estoque": 25,
+      "ativo": true,
+      "destaque": false,
+      "novidade": true,
+      "oferta": false,
+      "selo": "Novidade",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "USB-C",
+        "Linha": "Universal",
+        "Categoria": "Acessórios",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "kit-chaves",
+      "nome": "Kit de chaves de precisão",
+      "sku": "FER-CHV01",
+      "marca": "Universal",
+      "modelo": "Bancada técnica",
+      "categoria": "ferramentas",
+      "precoCentavos": 5900,
+      "estoque": 14,
+      "ativo": true,
+      "destaque": false,
+      "novidade": false,
+      "oferta": false,
+      "selo": "Destaque",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "Bancada técnica",
+        "Linha": "Universal",
+        "Categoria": "Ferramentas",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "pinca-precisao",
+      "nome": "Pinça de precisão — bancada",
+      "sku": "FER-PIN01",
+      "marca": "Universal",
+      "modelo": "Bancada técnica",
+      "categoria": "ferramentas",
+      "precoCentavos": 1700,
+      "estoque": 28,
+      "ativo": true,
+      "destaque": false,
+      "novidade": false,
+      "oferta": false,
+      "selo": "",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "Bancada técnica",
+        "Linha": "Universal",
+        "Categoria": "Ferramentas",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "espatula-tecnica",
+      "nome": "Espátula técnica de abertura",
+      "sku": "FER-ESP01",
+      "marca": "Universal",
+      "modelo": "Bancada técnica",
+      "categoria": "ferramentas",
+      "precoCentavos": 1200,
+      "estoque": 40,
+      "ativo": true,
+      "destaque": false,
+      "novidade": false,
+      "oferta": true,
+      "selo": "Oferta demo",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "Bancada técnica",
+        "Linha": "Universal",
+        "Categoria": "Ferramentas",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    },
+    {
+      "id": "manta-bancada",
+      "nome": "Manta para bancada técnica",
+      "sku": "FER-MAN01",
+      "marca": "Universal",
+      "modelo": "Bancada técnica",
+      "categoria": "ferramentas",
+      "precoCentavos": 7800,
+      "estoque": 10,
+      "ativo": true,
+      "destaque": false,
+      "novidade": false,
+      "oferta": false,
+      "selo": "",
+      "descricao": "Item demonstrativo para explorar o catálogo do Guinho. Confirme a versão, a compatibilidade, as especificações e o valor real com a equipe antes de comprar.",
+      "especificacoes": {
+        "Referência de compatibilidade": "Bancada técnica",
+        "Linha": "Universal",
+        "Categoria": "Ferramentas",
+        "Condição": "Demonstração — não representa estoque real"
+      }
+    }
+  ]
+}
