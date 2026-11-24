@@ -11,5 +11,11 @@
       "/api/*"
     ],
     "not_found_handling": "404-page"
+  },
+  "keep_vars": true,
+  "secrets": {
+    "required": [
+      "GUINHO_ADMIN_KEY"
+    ]
   }
 }
