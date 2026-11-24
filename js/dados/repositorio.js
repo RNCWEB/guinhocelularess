@@ -2,12 +2,21 @@
 import { configuracao } from "../configuracao.js";
 import { ler, salvar, remover, observarArmazenamento } from "./armazenamento.js";
 import { validarCategoria, validarProduto, validarConfiguracao } from "./validacao.js";
-const remoto = configuracao.apiCatalogo && !/^\/admin(?:\/|$)/.test(globalThis.location?.pathname ?? "");
+const remoto = configuracao.apiCatalogo;
+const painelRemoto = remoto && /^\/admin(?:\/|$)/.test(globalThis.location?.pathname ?? "");
+let historicoRemoto=[];
+export async function apiAdmin(path, method="GET", dados) {
+ const r=await fetch("/api/admin/"+path,{method,cache:"no-store",credentials:"same-origin",...(dados===undefined?{}:{headers:{"Content-Type":"application/json"},body:JSON.stringify(dados)})});
+ const d=await r.json();if(!r.ok)throw Error(d.erro||"Falha na operação.");return d;
+}
+export async function recarregarRepositorio(){carregamento=null;return iniciarRepositorio();}
+async function gravarRemoto(path,method,dados){const result=await apiAdmin(path,method,dados);await recarregarRepositorio();return result;}
 let origem, carregamento;
 export async function iniciarRepositorio() {
-  if (!carregamento) carregamento = fetch(remoto ? new URL("/api/catalogo", import.meta.url) : new URL("../../dados/produtos.json", import.meta.url), {cache: "no-store"}).then(async (resposta) => {
+  if (!carregamento) carregamento = fetch(remoto ? new URL(painelRemoto ? "/api/admin/catalogo" : "/api/catalogo", import.meta.url) : new URL("../../dados/produtos.json", import.meta.url), {cache: "no-store"}).then(async (resposta) => {
     if (!resposta.ok) throw Error("Não foi possível carregar o catálogo. Atualize a página ou use um servidor estático.");
     const dados = await resposta.json();
+    if(painelRemoto)historicoRemoto=dados.alteracoes||[];
     const categorias = dados.categorias.map(validarCategoria);
     origem = { categorias, produtos: dados.produtos.map((produto) => validarProduto(produto, categorias)) };
     return obterCatalogo();
@@ -44,6 +53,7 @@ function registrar(descricao) {
   window.dispatchEvent(new CustomEvent("guinho:catalogo-alterado"));
 }
 export function gravarProduto(dados) {
+  if(painelRemoto)return gravarRemoto(dados.id?"produtos/"+encodeURIComponent(dados.id):"produtos",dados.id?"PUT":"POST",dados);
   const { produtos, categorias } = obterCatalogo(), produto = validarProduto(dados, categorias);
   if (!dados.id && produtos.some((item) => item.id === produto.id)) throw Error("Esse produto ou identificador já existe. Edite o cadastro existente.");
   if (produtos.some((item) => item.id !== produto.id && item.sku === produto.sku)) throw Error("Esse SKU já está em uso.");
@@ -55,6 +65,7 @@ export function gravarProduto(dados) {
   return produto;
 }
 export function excluirProduto(id) {
+  if(painelRemoto)return gravarRemoto("produtos/"+encodeURIComponent(id),"DELETE");
   const { produtos } = obterCatalogo();
   salvar("produtos", produtos.filter((item) => item.id !== id));
   registrar("Produto removido do catálogo local.");
@@ -103,6 +114,7 @@ export function restaurarCatalogo() {
   registrar("Catálogo demonstrativo restaurado. Carrinho preservado.");
 }
 export const obterAlteracoes = () => {
+  if(painelRemoto)return structuredClone(historicoRemoto);
   const itens = ler("alteracoes", []);
   return Array.isArray(itens) ? itens : [];
 };

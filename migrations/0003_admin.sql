@@ -1,0 +1,5 @@
+-- RNCWEB
+CREATE TABLE sessoes_admin (hash TEXT PRIMARY KEY, expira INTEGER NOT NULL);
+CREATE INDEX sessoes_expira ON sessoes_admin(expira);
+CREATE TABLE limite_login (chave TEXT PRIMARY KEY, janela INTEGER NOT NULL, tentativas INTEGER NOT NULL);
+CREATE TABLE historico_admin (id INTEGER PRIMARY KEY AUTOINCREMENT, descricao TEXT NOT NULL, data TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);

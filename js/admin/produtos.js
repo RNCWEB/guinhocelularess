@@ -35,11 +35,11 @@ export function formularioProduto(produto, atualizar) {
   const salvar = elemento("button", "botao", "Salvar produto");
   salvar.type = "submit";
   form.append(salvar);
-  form.addEventListener("submit", (evento) => {
+  form.addEventListener("submit", async (evento) => {
     evento.preventDefault();
     try {
       const valores = Object.fromEntries(new FormData(form)), valorSelo = valores.selo;
-      gravarProduto({ ...produto, ...valores, id: produto?.id, precoCentavos: precoEmCentavos(valores.preco), estoque: Number(valores.estoque), ativo: form.elements.ativo.checked, destaque: form.elements.destaque.checked, novidade: valorSelo === "Novidade", oferta: valorSelo === "Oferta demo" });
+      await gravarProduto({ ...produto, ...valores, id: produto?.id, precoCentavos: precoEmCentavos(valores.preco), estoque: Number(valores.estoque), ativo: form.elements.ativo.checked, destaque: form.elements.destaque.checked, novidade: valorSelo === "Novidade", oferta: valorSelo === "Oferta demo" });
       avisar("Produto salvo localmente.");
       painel.dialogo.close();
       atualizar();
@@ -57,10 +57,10 @@ function editarPreco(produto, atualizar) {
   const salvar = elemento("button", "botao", "Salvar preço");
   salvar.type = "submit";
   form.append(salvar);
-  form.addEventListener("submit", (evento) => {
+  form.addEventListener("submit", async (evento) => {
     evento.preventDefault();
     try {
-      gravarProduto({ ...produto, precoCentavos: precoEmCentavos(form.elements.preco.value) });
+      await gravarProduto({ ...produto, precoCentavos: precoEmCentavos(form.elements.preco.value) });
       painel.dialogo.close();
       avisar("Preço demonstrativo atualizado.");
       atualizar();
@@ -108,10 +108,10 @@ export function mostrarProdutos(area, atualizar, estoque = false) {
         td.append(input);
         linha.append(td, elemento("td", "", produto.estoque ? "Com saldo demo" : "Sem saldo demo"));
         const acoes = elemento("td");
-        acoes.append(botao("Salvar ajuste", "botao secundario botao-pequeno", () => {
+        acoes.append(botao("Salvar ajuste", "botao secundario botao-pequeno", async () => {
           try {
             if (!input.reportValidity()) return;
-            gravarProduto({ ...produto, estoque: Number(input.value) });
+            await gravarProduto({ ...produto, estoque: Number(input.value) });
             avisar("Estoque demonstrativo atualizado.");
             renderizarLinhas();
           } catch (erro) {
@@ -123,8 +123,8 @@ export function mostrarProdutos(area, atualizar, estoque = false) {
       } else {
         linha.append(elemento("td", "preco-tabela", moeda(produto.precoCentavos)), elemento("td", "", String(produto.estoque)));
         const acoes = elemento("td", "acoes-tabela");
-        acoes.append(acaoIcone("editar", "Editar " + produto.nome, () => formularioProduto(produto, atualizar)), acaoIcone("etiqueta", "Editar preço de " + produto.nome, () => editarPreco(produto, atualizar)), acaoIcone("lixeira", "Excluir " + produto.nome, () => confirmar("Excluir produto?", produto.nome + " será removido somente deste catálogo local.", () => {
-          excluirProduto(produto.id);
+        acoes.append(acaoIcone("editar", "Editar " + produto.nome, () => formularioProduto(produto, atualizar)), acaoIcone("etiqueta", "Editar preço de " + produto.nome, () => editarPreco(produto, atualizar)), acaoIcone("lixeira", "Excluir " + produto.nome, () => confirmar("Excluir produto?", produto.nome + " será removido do catálogo.", async () => {
+          try{await excluirProduto(produto.id);}catch(e){avisar(e.message,"erro");return;}
           avisar("Produto excluído localmente.");
           atualizar();
         })));
