@@ -33,3 +33,5 @@ jobs:
           node scripts/provision-cloudflare.mjs
           npx --no-install wrangler d1 migrations apply DB --remote --config wrangler.deploy.json
           npx --no-install wrangler deploy --config wrangler.deploy.json
+      - name: Validar a implantação sem alterar dados
+        run: node scripts/smoke-cloudflare.mjs

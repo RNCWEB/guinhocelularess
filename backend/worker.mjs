@@ -1,5 +1,6 @@
 // RNCWEB
 import { admin, configPublica } from './admin.mjs';
+import { checkout } from './checkout.mjs';
 const headers={"content-type":"application/json; charset=utf-8","cache-control":"no-store","x-content-type-options":"nosniff","x-robots-tag":"noindex"};
 const json=(body,status=200,extra={})=>new Response(JSON.stringify(body),{status,headers:{...headers,...extra}});
 export function produtoPublico(row) {
@@ -10,6 +11,7 @@ export default {
     const path=new URL(request.url).pathname;
     if (!path.startsWith("/api/")) return env.ASSETS.fetch(request);
     if (path.startsWith("/api/admin/")) return admin(request,env);
+    if (path==="/api/pedidos-demo") return checkout(request,env);
     if (request.method!=="GET") return json({erro:"Método não permitido."},405,{allow:"GET"});
     try {
       if (path==="/api/saude") {

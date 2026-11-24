@@ -6,7 +6,7 @@ import { readFileSync } from "node:fs";
 import worker from "../backend/worker.mjs";
 const db=new DatabaseSync(":memory:");
 db.exec("PRAGMA foreign_keys=ON");
-for(const file of ["0001_catalogo.sql","0002_demonstracao.sql","0003_admin.sql","0004_config.sql","0005_operacao.sql","0006_pedidos_demo.sql"])db.exec(readFileSync(new URL("../migrations/"+file,import.meta.url),"utf8"));
+for(const file of ["0001_catalogo.sql","0002_demonstracao.sql","0003_admin.sql","0004_config.sql","0005_operacao.sql","0006_pedidos_demo.sql","0007_checkout_demo.sql"])db.exec(readFileSync(new URL("../migrations/"+file,import.meta.url),"utf8"));
 const env={DB:{prepare(sql){let params=[];const st=db.prepare(sql);return {bind(...p){params=p;return this},async first(){return st.get(...params)??null},async all(){return {results:st.all(...params)}},async run(){return st.run(...params)}}},async batch(stmts){db.exec("BEGIN");try{const results=[];for(const s of stmts)results.push(await s.all());db.exec("COMMIT");return results;}catch(e){db.exec("ROLLBACK");throw e;}}},ASSETS:{fetch:()=>new Response("static")}};
 const req=(p,method="GET")=>worker.fetch(new Request("https://teste.invalid"+p,{method}),env);
 test("schema e dados iniciais",()=>{assert.equal(db.prepare("SELECT count(*) AS n FROM produtos").get().n,27);assert.equal(db.prepare("SELECT count(*) AS n FROM categorias").get().n,9);assert.throws(()=>db.exec("UPDATE produtos SET estoque=-1"));assert.throws(()=>db.exec("UPDATE produtos SET categoria='inexistente'"));});
@@ -36,4 +36,23 @@ assert.equal((await call("/api/admin/pedidos","POST",{...payload,id:crypto.rando
 const dashboard=await call("/api/admin/indicadores","GET",null,cookie);assert.equal(dashboard.status,200);assert.ok((await dashboard.json()).vendas>=1);
 const backup=await call("/api/admin/exportacao","GET",null,cookie);assert.equal(backup.status,200);assert.equal("sessoes_admin" in await backup.json(),false);
 await call("/api/admin/sair","POST",{},cookie);delete env.GUINHO_ADMIN_KEY;
+});
+
+test("checkout público limitado, sem dados pessoais e preço calculado pelo servidor",async()=>{
+env.GUINHO_ADMIN_KEY="teste-local-apenas-uma-chave-ficticia-32";
+const id=crypto.randomUUID(),p="tela-iphone11",antes=db.prepare("SELECT estoque,precoCentavos FROM produtos WHERE id=?").get(p);
+const payload={id,cliente:"nao armazenar",itens:[{produto_id:p,quantidade:1,preco:1}],status:"concluido"};
+const call=(data,origin="https://teste.invalid")=>worker.fetch(new Request("https://teste.invalid/api/pedidos-demo",{method:"POST",headers:{origin,"content-type":"application/json","CF-Connecting-IP":"test-public-checkout"},body:JSON.stringify(data)}),env);
+assert.equal((await call(payload,"https://outra.invalid")).status,403);
+assert.equal((await call(payload)).status,201);
+assert.equal((await call(payload)).status,200);
+assert.equal(db.prepare("SELECT COUNT(*) n FROM pedidos WHERE id=?").get(id).n,1);
+assert.equal(db.prepare("SELECT cliente,status FROM pedidos WHERE id=?").get(id).cliente,"Pedido do catálogo (demo)");
+assert.equal(db.prepare("SELECT status FROM pedidos WHERE id=?").get(id).status,"pendente");
+assert.equal(db.prepare("SELECT preco FROM pedido_itens WHERE pedido_id=?").get(id).preco,antes.precoCentavos);
+assert.equal(db.prepare("SELECT estoque FROM produtos WHERE id=?").get(p).estoque,antes.estoque);
+assert.equal((await call({...payload,id:crypto.randomUUID()})).status,201);
+assert.equal((await call({...payload,id:crypto.randomUUID()})).status,429);
+assert.equal((await req("/api/pedidos-demo")).status,405);
+delete env.GUINHO_ADMIN_KEY;
 });
