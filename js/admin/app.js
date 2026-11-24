@@ -9,10 +9,11 @@ import { mostrarProdutos } from "./produtos.js";
 import { mostrarCategorias } from "./categorias.js";
 import { mostrarConfiguracoes } from "./configuracoes.js";
 import { mostrarImportacao } from "./importacao.js";
+import { mostrarPedidos, mostrarIndicadores } from "./operacao.js";
 prepararAvisos();
 preencherIcones();
 let secao = "dashboard";
-const vistas = { dashboard: "Visão geral", produtos: "Produtos", estoque: "Estoque", categorias: "Categorias", importacao: "Importação CSV", configuracoes: "Configurações" };
+const vistas = { dashboard: "Visão geral", produtos: "Produtos", estoque: "Estoque", categorias: "Categorias", importacao: "Importação CSV", configuracoes: "Configurações", pedidos:"Pedidos" };
 function renderizar() {
   const area = document.querySelector("#admin-conteudo");
   area.replaceChildren();
@@ -23,7 +24,8 @@ function renderizar() {
     else no.removeAttribute("aria-current");
   });
   document.querySelector("#nome-secao").textContent = vistas[secao];
-  if (secao === "dashboard") mostrarPainel(area);
+  if (secao === "dashboard") {mostrarPainel(area);if(configuracao.apiCatalogo)mostrarIndicadores(area);}
+  else if(secao==="pedidos")mostrarPedidos(area,renderizar);
   else if (secao === "produtos" || secao === "estoque") mostrarProdutos(area, renderizar, secao === "estoque");
   else if (secao === "categorias") mostrarCategorias(area, renderizar);
   else if (secao === "configuracoes") mostrarConfiguracoes(area, renderizar);
@@ -56,6 +58,7 @@ async function iniciar() {
       abrir(nome);
       document.querySelector("#admin-conteudo h1").focus?.();
     });
+    if(configuracao.apiCatalogo){const nav=document.querySelector(".admin-navegacao nav"),b=elemento("button","","Pedidos");b.type="button";b.dataset.adminSecao="pedidos";nav.append(b);}
     document.querySelectorAll("[data-admin-secao]").forEach((no) => no.addEventListener("click", () => {
       secao = no.dataset.adminSecao;
       renderizar();

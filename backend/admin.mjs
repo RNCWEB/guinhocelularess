@@ -1,4 +1,5 @@
 // RNCWEB
+import { operacao } from './operacao.mjs';
 import { validarProduto, validarCategoria, validarConfiguracao } from "../js/dados/validacao.js";
 const encoder=new TextEncoder();
 const digest=async s=>Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",encoder.encode(s))),b=>b.toString(16).padStart(2,"0")).join("");
@@ -71,6 +72,7 @@ export async function admin(r,env){
    for(const item of d.produtos){let p;try{p=validarProduto(item,cats)}catch(e){throw fail(e.message)}if(skus.has(p.sku))throw fail("SKU repetido.");skus.add(p.sku);const old=existentes.find(x=>x.sku===p.sku);if(old)p.id=old.id;if(ids.has(p.id)||(!old&&existentes.some(x=>x.id===p.id)))throw fail("Identificador repetido.");ids.add(p.id);stmts.push(old?update(db,p):insert(db,p));}
    await db.batch([...stmts,audit(db,"Importação de "+stmts.length+" produtos.")]);return json({ok:true,total:stmts.length});
   }
+  const op=await operacao(db,path,method,()=>body(r));if(op)return json(op.body,op.status||200);
   return json({erro:"Rota inexistente."},404);
  }catch(e){if(e.status)return json({erro:e.message},e.status);if(/constraint|UNIQUE|FOREIGN KEY/i.test(e.message||""))return json({erro:"Registro duplicado ou relacionado."},409);return json({erro:"Operação temporariamente indisponível."},503)}
 }
