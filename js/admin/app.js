@@ -45,7 +45,7 @@ async function iniciar() {
     entrada.setAttribute("aria-busy", "false");
     entrada.querySelector("[data-texto-entrada]").textContent = configuracao.apiCatalogo ? "Entrar no painel" : "Entrar na demonstração";
     const senha=document.querySelector("#senha-admin");
-    if(configuracao.apiCatalogo){senha.disabled=false;senha.required=true;senha.placeholder="Chave administrativa";document.querySelector("#aviso-login").textContent="Acesso protegido. Use a chave administrativa configurada no Worker.";document.querySelectorAll('[data-admin-secao="categorias"],[data-admin-secao="importacao"],[data-admin-secao="configuracoes"]').forEach(n=>{n.disabled=true;n.title="Integração em desenvolvimento";});try{await apiAdmin("sessao");await recarregarRepositorio();abrir("Administrador");}catch{}}
+    if(configuracao.apiCatalogo){senha.disabled=false;senha.required=true;senha.placeholder="Chave administrativa";document.querySelector("#aviso-login").textContent="Acesso protegido. Use a chave administrativa configurada no Worker.";try{await apiAdmin("sessao");await recarregarRepositorio();abrir("Administrador");}catch{}}
 
     const sessao = ler("painel-aberto", null);
     if (!configuracao.apiCatalogo && sessao && typeof sessao.nome === "string") abrir(sessao.nome.slice(0, 50));

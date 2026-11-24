@@ -4,7 +4,7 @@ import { ler, salvar, remover, observarArmazenamento } from "./armazenamento.js"
 import { validarCategoria, validarProduto, validarConfiguracao } from "./validacao.js";
 const remoto = configuracao.apiCatalogo;
 const painelRemoto = remoto && /^\/admin(?:\/|$)/.test(globalThis.location?.pathname ?? "");
-let historicoRemoto=[];
+let historicoRemoto=[],configRemota={};
 export async function apiAdmin(path, method="GET", dados) {
  const r=await fetch("/api/admin/"+path,{method,cache:"no-store",credentials:"same-origin",...(dados===undefined?{}:{headers:{"Content-Type":"application/json"},body:JSON.stringify(dados)})});
  const d=await r.json();if(!r.ok)throw Error(d.erro||"Falha na operação.");return d;
@@ -17,6 +17,7 @@ export async function iniciarRepositorio() {
     if (!resposta.ok) throw Error("Não foi possível carregar o catálogo. Atualize a página ou use um servidor estático.");
     const dados = await resposta.json();
     if(painelRemoto)historicoRemoto=dados.alteracoes||[];
+    if(remoto)configRemota=dados.configuracao||{};
     const categorias = dados.categorias.map(validarCategoria);
     origem = { categorias, produtos: dados.produtos.map((produto) => validarProduto(produto, categorias)) };
     return obterCatalogo();
@@ -40,7 +41,7 @@ export function obterCatalogo() {
   }
 }
 export function obterConfiguracao() {
-  if (remoto) return {...configuracao};
+  if (remoto) return {...configuracao,...configRemota};
   try {
     return { ...configuracao, ...validarConfiguracao({ ...configuracao, ...ler("configuracao", {}) }) };
   } catch {
@@ -71,6 +72,7 @@ export function excluirProduto(id) {
   registrar("Produto removido do catálogo local.");
 }
 export function gravarCategoria(dados, idAnterior = "") {
+  if(painelRemoto)return gravarRemoto(idAnterior?"categorias/"+encodeURIComponent(idAnterior):"categorias",idAnterior?"PUT":"POST",dados);
   const { categorias, produtos } = obterCatalogo(), categoria = validarCategoria(dados);
   const indice = categorias.findIndex((item) => item.id === (idAnterior || categoria.id));
   if (categorias.some((item, i) => i !== indice && item.id === categoria.id)) throw Error("Essa categoria já existe.");
@@ -82,18 +84,21 @@ export function gravarCategoria(dados, idAnterior = "") {
   registrar("Categoria atualizada: " + categoria.nome);
 }
 export function excluirCategoria(id) {
+  if(painelRemoto)return gravarRemoto("categorias/"+encodeURIComponent(id),"DELETE");
   const { categorias, produtos } = obterCatalogo();
   if (produtos.some((item) => item.categoria === id)) throw Error("Transfira os produtos desta categoria antes de removê-la.");
   salvar("categorias", categorias.filter((item) => item.id !== id));
   registrar("Categoria removida.");
 }
 export function gravarConfiguracao(dados) {
+  if(painelRemoto)return gravarRemoto("configuracao","PUT",dados);
   const resultado = validarConfiguracao(dados);
   salvar("configuracao", resultado);
   registrar("Configurações locais da loja atualizadas.");
   return resultado;
 }
 export function importarProdutos(itens) {
+  if(painelRemoto)return gravarRemoto("importacao","POST",{produtos:itens});
   const { produtos, categorias } = obterCatalogo();
   const validados = itens.map((item) => validarProduto(item, categorias));
   if (new Set(validados.map((item) => item.sku)).size !== validados.length) throw Error("Há SKUs repetidos no arquivo.");
@@ -109,6 +114,7 @@ export function importarProdutos(itens) {
   registrar(`${validados.length} produtos importados localmente.`);
 }
 export function restaurarCatalogo() {
+  if(painelRemoto)throw Error("Restauração global desativada. Exporte o catálogo.");
   remover("produtos");
   remover("categorias");
   registrar("Catálogo demonstrativo restaurado. Carrinho preservado.");

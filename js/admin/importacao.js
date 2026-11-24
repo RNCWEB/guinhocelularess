@@ -69,11 +69,11 @@ export function mostrarImportacao(area) {
         resultado.append(caixa);
         if (previa.produtos.length > 100) resultado.append(elemento("p", "texto-suave", "A prévia mostra as primeiras 100 linhas. A validação incluiu todo o arquivo."));
       }
-      const importar = botao("Confirmar importação local", "botao", () => {
+      const importar = botao("Confirmar importação", "botao", async () => {
         try {
           if (!previa || previa.erros.length) throw Error("Valide o arquivo sem erros antes de importar.");
           const quantidade = previa.produtos.length;
-          importarProdutos(previa.produtos.map((item) => item.produto));
+          await importarProdutos(previa.produtos.map((item) => item.produto));
           previa = null;
           resultado.replaceChildren(elemento("div", "painel", `${quantidade} produtos importados neste navegador. O arquivo original do projeto não foi alterado.`));
           avisar("Importação local concluída.");

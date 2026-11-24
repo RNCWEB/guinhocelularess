@@ -1,5 +1,5 @@
 // RNCWEB
-import { admin } from './admin.mjs';
+import { admin, configPublica } from './admin.mjs';
 const headers={"content-type":"application/json; charset=utf-8","cache-control":"no-store","x-content-type-options":"nosniff","x-robots-tag":"noindex"};
 const json=(body,status=200,extra={})=>new Response(JSON.stringify(body),{status,headers:{...headers,...extra}});
 export function produtoPublico(row) {
@@ -21,7 +21,7 @@ export default {
           env.DB.prepare("SELECT id,nome,icone FROM categorias ORDER BY rowid"),
           env.DB.prepare("SELECT * FROM produtos WHERE ativo=1 ORDER BY rowid")
         ]);
-        return json({versao:1,categorias:categorias.results,produtos:produtos.results.map(produtoPublico)});
+        return json({versao:1,categorias:categorias.results,produtos:produtos.results.map(produtoPublico),configuracao:await configPublica(env.DB)});
       }
       if (path==="/api/categorias") {
         const result=await env.DB.prepare("SELECT id,nome,icone FROM categorias ORDER BY rowid").all();

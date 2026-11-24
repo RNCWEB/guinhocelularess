@@ -1,5 +1,5 @@
 // RNCWEB
-import { validarProduto } from "../js/dados/validacao.js";
+import { validarProduto, validarCategoria, validarConfiguracao } from "../js/dados/validacao.js";
 const encoder=new TextEncoder();
 const digest=async s=>Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",encoder.encode(s))),b=>b.toString(16).padStart(2,"0")).join("");
 const fail=(message,status=400)=>Object.assign(new Error(message),{status});
@@ -11,12 +11,15 @@ const decode=r=>({...r,ativo:!!r.ativo,destaque:!!r.destaque,novidade:!!r.novida
 async function body(r){
  if(!r.headers.get("content-type")?.toLowerCase().startsWith("application/json"))throw fail("JSON obrigatório.",415);
  const reader=r.body?.getReader();if(!reader)throw fail("Dados ausentes.");
- let n=0,chunks=[];for(;;){const {done,value}=await reader.read();if(done)break;n+=value.byteLength;if(n>32768){await reader.cancel();throw fail("Dados acima do limite.",413)}chunks.push(value)}
+ let n=0,chunks=[];for(;;){const {done,value}=await reader.read();if(done)break;n+=value.byteLength;if(n>131072){await reader.cancel();throw fail("Dados acima do limite.",413)}chunks.push(value)}
  const b=new Uint8Array(n);let offset=0;for(const c of chunks){b.set(c,offset);offset+=c.byteLength}
  try{const d=JSON.parse(new TextDecoder().decode(b));if(!d||typeof d!=="object"||Array.isArray(d))throw Error();return d}catch{throw fail("JSON inválido.")}
 }
 const fields=["id","sku","nome","marca","modelo","categoria","precoCentavos","estoque","ativo","destaque","novidade","oferta","selo","descricao","especificacoes"];
 const vals=p=>fields.map(k=>k==="especificacoes"?JSON.stringify(p[k]):typeof p[k]==="boolean"?Number(p[k]):p[k]);
+export async function configPublica(db){const r=await db.prepare("SELECT dados FROM config_loja WHERE id=1").first();return r?JSON.parse(r.dados):{}}
+const insert=(db,p)=>db.prepare("INSERT INTO produtos ("+fields.join(",")+") VALUES ("+fields.map(()=>"?").join(",")+")").bind(...vals(p));
+const update=(db,p)=>db.prepare("UPDATE produtos SET "+fields.slice(1).map(k=>k+"=?").join(",")+" WHERE id=?").bind(...vals(p).slice(1),p.id);
 const audit=(db,s)=>db.prepare("INSERT INTO historico_admin(descricao) VALUES (?)").bind(s);
 export async function admin(r,env){
  const db=env.DB,path=new URL(r.url).pathname,method=r.method;
@@ -40,7 +43,7 @@ export async function admin(r,env){
   if(path==="/api/admin/sair"&&method==="POST"){await db.prepare("DELETE FROM sessoes_admin WHERE hash=?").bind(await digest(token)).run();return json({ok:true},200,{"set-cookie":cookie("",0)});}
   if(path==="/api/admin/catalogo"&&method==="GET"){
    const [c,p,h]=await db.batch([db.prepare("SELECT id,nome,icone FROM categorias ORDER BY rowid"),db.prepare("SELECT * FROM produtos ORDER BY rowid"),db.prepare("SELECT descricao,data FROM historico_admin ORDER BY id DESC LIMIT 30")]);
-   return json({categorias:c.results,produtos:p.results.map(decode),alteracoes:h.results.map(x=>({...x,data:x.data.replace(" ","T")+"Z"}))});
+   return json({categorias:c.results,produtos:p.results.map(decode),configuracao:await configPublica(db),alteracoes:h.results.map(x=>({...x,data:x.data.replace(" ","T")+"Z"}))});
   }
   const match=path.match(/^\/api\/admin\/produtos\/([a-z0-9-]{1,80})$/);
   if((path==="/api/admin/produtos"&&method==="POST")||(match&&method==="PUT")){
@@ -51,6 +54,23 @@ export async function admin(r,env){
    await db.batch([st,audit(db,(match?"Produto atualizado: ":"Produto cadastrado: ")+p.nome)]);return json(p,match?200:201);
   }
   if(match&&method==="DELETE"){await db.batch([db.prepare("DELETE FROM produtos WHERE id=?").bind(match[1]),audit(db,"Produto removido: "+match[1])]);return json({ok:true})}
+  const cat=path.match(/^\/api\/admin\/categorias\/([a-z0-9-]{1,80})$/);
+  if((path==="/api/admin/categorias"&&method==="POST")||(cat&&method==="PUT")){
+   const d=await body(r);let c;try{c=validarCategoria({...d,id:cat?cat[1]:undefined})}catch(e){throw fail(e.message)}
+   if(cat&&!await db.prepare("SELECT id FROM categorias WHERE id=?").bind(c.id).first())throw fail("Categoria não encontrada.",404);
+   await db.batch([cat?db.prepare("UPDATE categorias SET nome=?,icone=? WHERE id=?").bind(c.nome,c.icone,c.id):db.prepare("INSERT INTO categorias(id,nome,icone) VALUES(?,?,?)").bind(c.id,c.nome,c.icone),audit(db,"Categoria salva: "+c.nome)]);return json(c,cat?200:201);
+  }
+  if(cat&&method==="DELETE"){await db.batch([db.prepare("DELETE FROM categorias WHERE id=?").bind(cat[1]),audit(db,"Categoria removida: "+cat[1])]);return json({ok:true})}
+  if(path==="/api/admin/configuracao"&&method==="PUT"){
+   const d=await body(r);let c;try{c=validarConfiguracao(d)}catch(e){throw fail(e.message)}
+   await db.batch([db.prepare("INSERT INTO config_loja(id,dados) VALUES(1,?) ON CONFLICT(id) DO UPDATE SET dados=excluded.dados").bind(JSON.stringify(c)),audit(db,"Configurações atualizadas.")]);return json(c);
+  }
+  if(path==="/api/admin/importacao"&&method==="POST"){
+   const d=await body(r);if(!Array.isArray(d.produtos)||!d.produtos.length||d.produtos.length>50)throw fail("Importe de 1 a 50 produtos por operação.");
+   const cats=(await db.prepare("SELECT id,nome,icone FROM categorias").all()).results,existentes=(await db.prepare("SELECT id,sku FROM produtos").all()).results,skus=new Set(),ids=new Set(),stmts=[];
+   for(const item of d.produtos){let p;try{p=validarProduto(item,cats)}catch(e){throw fail(e.message)}if(skus.has(p.sku))throw fail("SKU repetido.");skus.add(p.sku);const old=existentes.find(x=>x.sku===p.sku);if(old)p.id=old.id;if(ids.has(p.id)||(!old&&existentes.some(x=>x.id===p.id)))throw fail("Identificador repetido.");ids.add(p.id);stmts.push(old?update(db,p):insert(db,p));}
+   await db.batch([...stmts,audit(db,"Importação de "+stmts.length+" produtos.")]);return json({ok:true,total:stmts.length});
+  }
   return json({erro:"Rota inexistente."},404);
  }catch(e){if(e.status)return json({erro:e.message},e.status);if(/constraint|UNIQUE|FOREIGN KEY/i.test(e.message||""))return json({erro:"Registro duplicado ou relacionado."},409);return json({erro:"Operação temporariamente indisponível."},503)}
 }

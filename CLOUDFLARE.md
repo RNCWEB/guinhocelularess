@@ -10,3 +10,5 @@ Rotas GET: /api/saude, /api/catalogo, /api/categorias, /api/produtos e /api/prod
 
 ## Painel compartilhado — fase 2
 Configure no Worker a variável do tipo Secret `GUINHO_ADMIN_KEY`, com chave aleatória de pelo menos 32 caracteres. Não publique a chave no código. Sem ela, o login falha fechado. Sessões D1 duram oito horas; cookie HttpOnly Secure SameSite Strict, limite por IP, checagem de origem e consultas parametrizadas. Produtos, preço, estoque demonstrativo e histórico passam pela API. Categorias, importação, configurações compartilhadas e pedidos ainda pendentes; as três seções administrativas não integradas estão desativadas na versão Cloudflare. Não trate como produção antes dos testes completos.
+
+Fase 3: categorias, configurações e importação CSV (até 50 produtos por operação) conectadas ao D1. A configuração comercial fica pública por desenho; não inserir dados pessoais, credenciais ou contatos fictícios de terceiros. Pedidos ainda pendentes.

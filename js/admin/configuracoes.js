@@ -16,10 +16,10 @@ export function mostrarConfiguracoes(area, atualizar) {
   const salvar = elemento("button", "botao", "Salvar configurações locais");
   salvar.type = "submit";
   form.append(salvar);
-  form.addEventListener("submit", (evento) => {
+  form.addEventListener("submit", async (evento) => {
     evento.preventDefault();
     try {
-      gravarConfiguracao(Object.fromEntries(new FormData(form)));
+      await gravarConfiguracao(Object.fromEntries(new FormData(form)));
       avisar("Configurações salvas neste navegador.");
     } catch (erro) {
       informarErro(form, erro);
@@ -36,7 +36,7 @@ export function mostrarConfiguracoes(area, atualizar) {
     link.click();
     setTimeout(() => URL.revokeObjectURL(url), 1e3);
   }), botao("Restaurar demonstração", "botao discreto", () => confirmar("Restaurar o catálogo?", "Os produtos e categorias editados neste navegador serão substituídos pelos exemplos iniciais. Seu carrinho e as configurações serão preservados.", () => {
-    restaurarCatalogo();
+    try{restaurarCatalogo();}catch(e){avisar(e.message,"erro");return;}
     atualizar();
     avisar("Catálogo de demonstração restaurado.");
   })));

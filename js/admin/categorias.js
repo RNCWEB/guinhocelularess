@@ -13,11 +13,11 @@ function editar(categoria, atualizar) {
   const salvar = elemento("button", "botao", "Salvar categoria");
   salvar.type = "submit";
   form.append(salvar);
-  form.addEventListener("submit", (evento) => {
+  form.addEventListener("submit", async (evento) => {
     evento.preventDefault();
     try {
-      gravarCategoria(Object.fromEntries(new FormData(form)), categoria?.id);
-      avisar("Categoria salva localmente.");
+      await gravarCategoria(Object.fromEntries(new FormData(form)), categoria?.id);
+      avisar("Categoria salva.");
       painel.dialogo.close();
       atualizar();
     } catch (erro) {
@@ -36,9 +36,9 @@ export function mostrarCategorias(area, atualizar) {
     const card = elemento("article", "painel categoria-admin");
     card.append(icone(categoria.icone), elemento("h2", "", categoria.nome), elemento("p", "texto-suave", `${produtos.filter((p) => p.categoria === categoria.id).length} produtos · ${categoria.id}`));
     const acoes = elemento("div", "acoes-tabela");
-    acoes.append(acaoIcone("editar", "Editar categoria " + categoria.nome, () => editar(categoria, atualizar)), acaoIcone("lixeira", "Excluir categoria " + categoria.nome, () => confirmar("Excluir categoria?", "Categorias com produtos não podem ser removidas.", () => {
+    acoes.append(acaoIcone("editar", "Editar categoria " + categoria.nome, () => editar(categoria, atualizar)), acaoIcone("lixeira", "Excluir categoria " + categoria.nome, () => confirmar("Excluir categoria?", "Categorias com produtos não podem ser removidas.", async () => {
       try {
-        excluirCategoria(categoria.id);
+        await excluirCategoria(categoria.id);
         atualizar();
         avisar("Categoria excluída.");
       } catch (erro) {
