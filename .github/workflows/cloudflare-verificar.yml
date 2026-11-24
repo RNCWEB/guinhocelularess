@@ -1,0 +1,32 @@
+# RNCWEB
+name: Verificar Cloudflare
+
+on:
+  push:
+    branches: [cloudflare-migracao]
+    paths: ['.github/workflows/cloudflare-verificar.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Verificar conexão
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          test -n "$CF_TOKEN"
+          test -n "$CF_ACCOUNT"
+          set -e
+          for endpoint in d1/database workers/scripts; do
+            curl --fail --silent --show-error \
+              -H "Authorization: Bearer $CF_TOKEN" \
+              "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT/$endpoint" \
+              -o /dev/null
+            echo "Acesso confirmado: $endpoint"
+          done
