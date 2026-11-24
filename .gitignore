@@ -6,3 +6,7 @@ Thumbs.db
 node_modules/
 test-results/
 playwright-report/
+/dist/
+/.wrangler/
+/wrangler.deploy.json
+/node_modules/

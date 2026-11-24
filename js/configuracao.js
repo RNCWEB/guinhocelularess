@@ -11,6 +11,7 @@ export const configuracao = Object.freeze({
   cidade: "",
   horario: "",
   urlPublica: "",
+  apiCatalogo: false,
   demonstracao: true,
   autor: "renancodando",
   versaoDados: 1,

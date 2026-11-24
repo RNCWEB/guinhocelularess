@@ -1,19 +1,9 @@
-# RNCWEB — Migração Cloudflare
+# RNCWEB — Fase 1: catálogo demonstrativo no D1
+A branch cloudflare-migracao mantém a loja original sem alterações visuais. O nome dedicado do Worker e do D1 é rncweb-guinho-1470450074. Os 27 produtos e nove categorias são exemplos, não estoque real.
 
-Esta branch mantém o front-end demonstrativo intacto e prepara apenas sua hospedagem em Workers Static Assets. Não cria banco D1, API nem autenticação; o painel continua sendo uma demonstração local.
+## Implantação
+O workflow precisa de permissão de Workflows. Os secrets CLOUDFLARE_API_TOKEN e CLOUDFLARE_ACCOUNT_ID devem estar cadastrados. Executar somente na branch cloudflare-migracao, sem pull requests externos.
 
-## Publicação pelo painel
+Com Node 24, execute os testes (node --test testes/logica.test.mjs testes/backend.test.mjs), prepare os assets (node scripts/prepare-cloudflare.mjs), gere o binding D1 (node scripts/provision-cloudflare.mjs), aplique as migrações (npx --yes wrangler@4.166.0 d1 migrations apply DB --remote --config wrangler.deploy.json) e publique (npx --yes wrangler@4.166.0 deploy --config wrangler.deploy.json).
 
-Em Workers & Pages, crie um Worker importando o repositório guinhocelulares. Selecione a branch cloudflare-migracao como branch de produção do novo Worker. Use a raiz do repositório, comando de build `node scripts/prepare-cloudflare.mjs` e comando de deploy `npx wrangler deploy`. Autorize o acesso do Cloudflare ao repositório. O nome do Worker deve coincidir com wrangler.jsonc; se já existir um Worker com esse nome, use um nome livre no painel e no arquivo.
-
-O build copia somente arquivos públicos para dist. Não publica código de infraestrutura, relatórios ou testes. Não há domínio próprio obrigatório. A publicação original na Vercel permanece na branch main.
-
-## CLI alternativa
-
-```sh
-node scripts/prepare-cloudflare.mjs
-npx wrangler login
-npx wrangler deploy
-```
-
-Depois de publicar, valide /, /catalogo.html, /carrinho.html, /admin/, CSS, carregamento do JSON e um endereço inexistente. A próxima fase é adicionar um binding D1 e uma API com autorização real.
+Rotas GET: /api/saude, /api/catalogo, /api/categorias, /api/produtos e /api/produtos/:id. A API não aceita escrita pública. O front público lê o D1 na compilação Cloudflare; a versão estática mantém o JSON original. O painel continua local e demonstrativo; não é uma área autenticada. Não inserir informações reais antes de implementar autenticação e CRUD. Pedidos e controle transacional de estoque ainda não estão implementados.

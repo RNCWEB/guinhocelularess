@@ -1,10 +1,11 @@
-// Esta fronteira de dados pode ser substituída por uma API sem alterar as telas.
+// RNCWEB — loja remota; painel ainda demonstrativo.
 import { configuracao } from "../configuracao.js";
 import { ler, salvar, remover, observarArmazenamento } from "./armazenamento.js";
 import { validarCategoria, validarProduto, validarConfiguracao } from "./validacao.js";
+const remoto = configuracao.apiCatalogo && !/^\/admin(?:\/|$)/.test(globalThis.location?.pathname ?? "");
 let origem, carregamento;
 export async function iniciarRepositorio() {
-  if (!carregamento) carregamento = fetch(new URL("../../dados/produtos.json", import.meta.url)).then(async (resposta) => {
+  if (!carregamento) carregamento = fetch(remoto ? new URL("/api/catalogo", import.meta.url) : new URL("../../dados/produtos.json", import.meta.url), {cache: "no-store"}).then(async (resposta) => {
     if (!resposta.ok) throw Error("Não foi possível carregar o catálogo. Atualize a página ou use um servidor estático.");
     const dados = await resposta.json();
     const categorias = dados.categorias.map(validarCategoria);
@@ -18,6 +19,7 @@ export async function iniciarRepositorio() {
 }
 export function obterCatalogo() {
   if (!origem) throw Error("O catálogo ainda está carregando.");
+  if (remoto) return structuredClone(origem);
   try {
     const categorias = ler("categorias", origem.categorias).map(validarCategoria);
     const produtos = ler("produtos", origem.produtos).map((produto) => validarProduto(produto, categorias));
@@ -29,6 +31,7 @@ export function obterCatalogo() {
   }
 }
 export function obterConfiguracao() {
+  if (remoto) return {...configuracao};
   try {
     return { ...configuracao, ...validarConfiguracao({ ...configuracao, ...ler("configuracao", {}) }) };
   } catch {
