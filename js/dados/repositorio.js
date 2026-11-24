@@ -41,7 +41,7 @@ export function obterCatalogo() {
   }
 }
 export function obterConfiguracao() {
-  if (remoto) return {...configuracao,...configRemota};
+  if (remoto) return {...configuracao,...configRemota,nome:configuracao.nome,complemento:configuracao.complemento};
   try {
     return { ...configuracao, ...validarConfiguracao({ ...configuracao, ...ler("configuracao", {}) }) };
   } catch {
