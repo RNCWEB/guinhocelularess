@@ -26,7 +26,7 @@ export function iniciarPagina() {
   atualizar();
   window.addEventListener("guinho:atualizar-pagina", atualizar);
   const slides = [
-    ["Tudo para sua", "assistência técnica", "Peças, componentes e acessórios. Encontre a compatibilidade certa e monte seu próximo pedido."],
+    ["A peça certa.", "O próximo reparo.", "Peças, componentes e acessórios para quem vive de assistência técnica. Encontre a compatibilidade certa e organize seu pedido."],
     ["A peça certa para", "o próximo reparo", "Busque por modelo, marca ou SKU. Explore as compatibilidades e leve sua seleção para o atendimento."],
     ["Seu pedido com", "mais clareza", "Organize suas peças, ajuste as quantidades e revise a mensagem antes de conversar com a equipe."]
   ];

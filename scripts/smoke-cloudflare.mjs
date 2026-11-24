@@ -6,7 +6,8 @@ async function get(path,status=200){
 }
 const s=await (await get("/api/saude")).json();assert.equal(s.banco,"conectado");
 const c=await (await get("/api/catalogo")).json();assert.ok(Array.isArray(c.produtos)&&Array.isArray(c.categorias));assert.ok(c.produtos.every(p=>p.estoque>=0&&Number.isInteger(p.precoCentavos)));
-assert.match(await (await get("/")).text(),/Guinho/i);
+assert.match(await (await get("/")).text(),/css\/identidade\.css/);
+assert.match(await (await get("/css/identidade.css")).text(),/marfim, grafite e cobre/);
 assert.match(await (await get("/admin/")).text(),/senha-admin/);
 assert.match(await (await get("/js/admin/operacao.js")).text(),/mostrarPedidos/);
 for(const path of ["/api/admin/pedidos","/api/admin/catalogo","/api/admin/indicadores","/api/admin/exportacao"])await get(path,401);
