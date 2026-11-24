@@ -13,6 +13,7 @@ for(let i=0;i<8;i++){
   assert.match(await (await get("/css/identidade.css")).text(),/comercial-grade/);
   assert.match(await (await get("/admin/")).text(),/css\/identidade\.css/);
   assert.match(await (await get("/js/admin/operacao.js")).text(),/Vendas por dia/);
+  assert.doesNotMatch(await (await get("/js/loja/estrutura.js")).text(),/href=["'](?:\.\/|\/)?admin\/?["']/i);
   last=null;break;
  }catch(e){last=e;if(i<7){console.log("Versão visual ainda não disponível em todos os pontos; nova tentativa.");await pause(5000);}}
 }
@@ -22,4 +23,4 @@ const c=await (await get("/api/catalogo")).json();assert.ok(Array.isArray(c.prod
 for(const path of ["/catalogo.html","/carrinho.html"])assert.match(await (await get(path)).text(),/css\/identidade\.css/);
 for(const path of ["/api/admin/pedidos","/api/admin/catalogo","/api/admin/indicadores","/api/admin/exportacao"])await get(path,401);
 await get("/api/pedidos-demo",405);await get("/api/nao-existe",404);
-console.log("Smoke externo: 14 verificações aprovadas. Redesign confirmado. Sem gravação de dados.");
+console.log("Smoke externo: 15 verificações aprovadas. Redesign confirmado. Sem gravação de dados.");
