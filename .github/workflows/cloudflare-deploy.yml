@@ -1,0 +1,35 @@
+# RNCWEB
+name: Implantar Guinho na Cloudflare
+on:
+  push:
+    branches: [cloudflare-migracao]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: guinho-cloudflare
+  cancel-in-progress: false
+jobs:
+  implantar:
+    if: github.ref == 'refs/heads/cloudflare-migracao'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Testes e preparação
+        run: |
+          node --test testes/logica.test.mjs testes/backend.test.mjs
+          node scripts/prepare-cloudflare.mjs
+          npm install --no-save --package-lock=false wrangler@4.166.0
+      - name: Criar banco, aplicar migrações e publicar
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          WRANGLER_SEND_METRICS: 'false'
+        run: |
+          node scripts/provision-cloudflare.mjs
+          npx --no-install wrangler d1 migrations apply DB --remote --config wrangler.deploy.json
+          npx --no-install wrangler deploy --config wrangler.deploy.json
